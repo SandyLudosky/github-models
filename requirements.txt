@@ -1,7 +1,0 @@
-python-dotenv==1.1.0
-rich>=13.5.0
-colorama==0.4.6
-openai>=1.8.0.             # OpenAI API
-anthropic>=0.0.1           # Anthropic Claude API
-mistralai>=0.2.0           # Mistral AI SDK
-langfuse>=2.0.0  # LangFuse for tracing and observability
