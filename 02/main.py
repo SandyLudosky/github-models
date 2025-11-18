@@ -36,52 +36,52 @@ def main():
         }
     ]
 
-    while True:
-        user_input = input("Vous: ")
-        if user_input.lower() in ("quit", "exit", "q"):
-            print("Assistant: À bientôt 👋")
-            break
+    
+    user_input = input("Vous: ")
+    if user_input.lower() in ("quit", "exit", "q"):
+        print("Assistant: À bientôt 👋")
 
-        # Ajouter le message utilisateur à l'historique
-        messages.append({
-            "role": "user",
-            "content": [
-                {
-                    "type": "text",
-                    "text": user_input,
-                },
-            ],
-        })
 
-        # Appel au modèle GitHub
-        response = client.chat.completions.create(
-            messages=messages,
-            model="openai/gpt-5",      # ou un autre modèle GitHub
-            reasoning_effort="medium", # optionnel selon le modèle
+    # Ajouter le message utilisateur à l'historique
+    messages.append({
+        "role": "user",
+        "content": [
+            {
+                "type": "text",
+                "text": user_input,
+            },
+        ],
+    })
+
+    # Appel au modèle GitHub
+    response = client.chat.completions.create(
+        messages=messages,
+        model="openai/gpt-5",      # ou un autre modèle GitHub
+        reasoning_effort="medium", # optionnel selon le modèle
+    )
+
+    assistant_message = response.choices[0].message
+    content = response.choices[0].message.content
+
+    # Récupérer le texte de la réponse
+    text_parts = []
+    for part in assistant_message.content:
+        if isinstance(content, str):
+            assistant_text = content
+        else:
+            assistant_text = "\n".join(
+            part.text for part in content
+        if hasattr(part, "type") and part.type == "text"
         )
 
-        assistant_message = response.choices[0].message
-        content = response.choices[0].message.content
+    print("Assistant:", assistant_text)
+    print()
 
-        # Récupérer le texte de la réponse
-        text_parts = []
-        for part in assistant_message.content:
-            if isinstance(content, str):
-                assistant_text = content
-            else:
-                assistant_text = "\n".join(
-                part.text for part in content
-            if hasattr(part, "type") and part.type == "text"
-            )
-
-        print("Assistant:", assistant_text)
-        print()
-
-        # Ajouter la réponse du modèle à l'historique
-        messages.append({
-            "role": "assistant",
-            "content": assistant_message.content,
-        })
+    # Ajouter la réponse du modèle à l'historique
+    messages.append({
+        "role": "assistant",
+        "content": assistant_message.content,
+    })
 
 if __name__ == "__main__":
     main()
