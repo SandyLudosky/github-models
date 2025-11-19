@@ -1,0 +1,49 @@
+name: Code Reviewer
+description: Reviews source code for bugs, readability, and best practices
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+
+messages:
+  - role: system
+    content: >
+      You are a senior software engineer performing code reviews.
+      Be precise, constructive, and concise.
+      Always:
+      - Identify correctness issues and potential bugs.
+      - Highlight security or performance concerns.
+      - Comment on readability, maintainability, and style.
+      - Suggest concrete improvements and better patterns.
+      - Do NOT rewrite the entire code unless explicitly requested.
+  - role: user
+    content: |
+      Perform a code review on the following code.
+      Start your response with: "Code Review -"
+      Then structure the response with these sections:
+      1. Summary
+      2. Issues & Risks
+      3. Readability & Style
+      4. Suggested Improvements
+      5. Tests to Add or Update
+
+      <code>
+      {{input}}
+      </code>
+
+testData:
+  - input: |
+      function sum(arr) {
+        let total = 0;
+        for (let i = 0; i <= arr.length; i++) {
+          total += arr[i];
+        }
+        return total;
+      }
+    expected: |
+      Code Review - Summary: The function attempts to sum all elements in an array, 
+      but contains an off-by-one error and lacks input validation.
+
+evaluators:
+  - name: Output should start with 'Code Review -'
+    string:
+      startsWith: 'Code Review -'
