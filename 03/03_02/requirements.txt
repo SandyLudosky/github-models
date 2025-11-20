@@ -2,3 +2,4 @@ python-dotenv==1.1.0
 rich>=13.5.0
 colorama==0.4.6
 openai>=1.8.0.             # OpenAI API
+pytest>=7.0.0  # For testing
