@@ -22,7 +22,7 @@ jobs:
               "messages": [
                   {
                      "role": "user",
-                     "content": "Explain the concept of recursion."
+                     "content": "run a code review of the main.py file in the repository"
                   }
                ],
                "model": "openai/gpt-4o"
